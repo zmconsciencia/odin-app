@@ -2,7 +2,7 @@ import React from "react";
 
 function ListItems(props: { value: string }) {
 	return (
-	  <li>{props.value}</li>
+	<li>{props.value}</li>
 	)
   }
   
@@ -17,7 +17,7 @@ function DisplayList(props: { items: string[] }) {
 	}
 
 export default function List() {
-	const items: string[] = [];
+	const items: string[] = JSON.parse(localStorage.getItem('items') || '[]');
 	const[state, setState] = React.useState(items);
 	const[input, setInput] = React.useState('');
 	const[error, setError] = React.useState(false);
@@ -31,6 +31,7 @@ export default function List() {
 		setError(false);
 		setState(newItems);
 		setInput('');
+		localStorage.setItem('items', JSON.stringify(newItems));
 	}
 	
 	return (
