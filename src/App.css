@@ -1,42 +1,29 @@
-.total {
+.total, .total-second {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  margin: 20px;
 }
 
-.box-center {
-  width: 500px;
-  height: 500px;
+.box-center, .box-left, .box-right {
+  width: 400px;
+  height: 400px;
   margin: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   outline-style: solid;
+  border-radius: 20px;
+  padding: 12px 20px;
+  background-color: #EDF2F7;
 }
 
-.box-left {
-  width: 500px;
-  height: 500px;
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  outline-style: solid;
-}
-
-.box-right {
-  width: 500px;
-  height: 500px;
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  outline-style: solid;
+.title-box {
+  align-self: flex-start;
+  margin: 20px;
+  font-family: 'Inter', sans-serif;
 }
 
 input {

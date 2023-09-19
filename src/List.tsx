@@ -1,4 +1,5 @@
 import React from "react";
+import DonutChart from "./DonutChart";
 import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
 
 function ListItems(props: { value: string }) {
@@ -46,14 +47,15 @@ export default function List() {
 	}
 	
 	const data = [
-		{ name: 'Lisboa', value: 130 },
 		{ name: 'Algarve', value: 65 },
 		{ name: 'Porto', value: 65 },
-		{ name: 'Coimbra', value: 65}
+		{ name: 'Lisboa', value: 130 },
+		{ name: 'Açores', value: 10}
 	];
 
 	const sumData : number = data.reduce((acc, item) => acc + item.value, 0);
 	const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
 
 	return (
 		<>
@@ -85,6 +87,12 @@ export default function List() {
 							<Legend />
 						</PieChart>
 					</ResponsiveContainer>
+				</div>
+			</div>
+			<div className="total-second">
+				<div className="box-left">
+					<h2 className="title-box">Total Clients</h2>
+					<DonutChart data={data} width={700} />
 				</div>
 			</div>
 		</>
