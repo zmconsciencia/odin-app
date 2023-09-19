@@ -1,4 +1,34 @@
+.total {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.box-center {
+  width: 500px;
+  height: 500px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  outline-style: solid;
+}
+
 .box-left {
+  width: 500px;
+  height: 500px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  outline-style: solid;
+}
+
+.box-right {
   width: 500px;
   height: 500px;
   margin: 10px;
