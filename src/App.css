@@ -102,3 +102,21 @@ input {
   margin: 0;
   padding: 0;
 }
+
+.links {
+  color: blue;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.links:hover {
+  color: darkblue;
+}
+
+.client-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}

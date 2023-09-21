@@ -38,8 +38,8 @@ const DonutChart: React.FC<DonutChartProps> = ({ data, width }) => {
       .selectAll()
       .data(pie(data))
       .join("path")
-      .attr("fill", d => color(d.data.name))
-      .attr("d", arc)
+      .attr("fill", d => color(d.data.name) as string)
+      .attr("d", arc as any)
       .append("title")
       .text(d => `${d.data.name}: ${d.data.value.toLocaleString()}`);
 
@@ -55,7 +55,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ data, width }) => {
       .selectAll()
       .data(pie(data))
       .join("text")
-      .attr("transform", d => `translate(${outerArc.centroid(d)})`)
+      .attr("transform", d => `translate(${outerArc.centroid(d as any)})`)
       .attr("dy", "0.35em")
       .call(text => text.append("tspan")
         .attr("y", "-0.4em")
