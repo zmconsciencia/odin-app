@@ -133,6 +133,7 @@ export default function ClientView() {
       </button>
       <br />
       <div>
+        <br />
         <button className='glow-on-hover' onClick={showHandler} type='button'>Local Storage</button>
         {show ? (<DisplayDataHistory />) : null}
       </div>
