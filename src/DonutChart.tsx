@@ -11,7 +11,6 @@ const DonutChart: React.FC<DonutChartProps> = ({ data, width }) => {
 
   useEffect(() => {
     if (!svgRef.current) return;
-
     const height = Math.min(500, 500);
     const radius = Math.min(width/2, height) / 2;
 
@@ -51,6 +50,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ data, width }) => {
     svg.append("g")
       .attr("font-family", "Inter, sans-serif")
       .attr("font-size", 30)
+      .attr("fill", "#2D3748")
       .attr("text-anchor", "middle")
       .selectAll()
       .data(pie(data))
@@ -69,6 +69,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ data, width }) => {
         .attr("font-family", "Inter, sans-serif")
         .attr("text-anchor", "middle")
         .attr("font-size", 80)
+        .attr("fill", "#2D3748")
         .attr("dy", "0.35em")
         .text(`${totalValue.toLocaleString("en-US")}`);
   }, [data, width]);

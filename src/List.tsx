@@ -1,6 +1,7 @@
 import React from "react";
 import DonutChart from "./DonutChart";
 import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell, Legend } from 'recharts';
+import { Link } from "react-router-dom";
 
 function ListItems(props: { value: string }) {
 	return (
@@ -50,7 +51,10 @@ export default function List() {
 		{ name: 'Algarve', value: 65 },
 		{ name: 'Porto', value: 65 },
 		{ name: 'Lisboa', value: 130 },
-		{ name: 'Açores', value: 10}
+		{ name: 'Açores', value: 40},
+		{ name: 'Madeira', value: 100},
+		{ name: 'Alentejo', value: 32},
+		{ name: 'Centro', value: 70},
 	];
 
 	const sumData : number = data.reduce((acc, item) => acc + item.value, 0);
@@ -91,8 +95,13 @@ export default function List() {
 			</div>
 			<div className="total-second">
 				<div className="box-left">
-					<h2 className="title-box">Total Clients</h2>
+					<h1 className="title-box">Total Clients</h1>
 					<DonutChart data={data} width={700} />
+				</div>
+				<div className="box-center">
+					<Link to="./Client-View">
+						<button className='glow-on-hover' type='button'>Client View</button>
+					</Link>
 				</div>
 			</div>
 		</>
