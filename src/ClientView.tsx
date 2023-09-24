@@ -1,142 +1,164 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Spacer,
+  VStack,
+} from "@chakra-ui/react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { color } from "framer-motion";
 
-interface ClientData {
-    generalInfo: {
-      name: string;
-      headquartersAddress: string;
-      industry: string;
-    };
-    pointOfContact: {
-      name: string;
-      email: string;
-    };
-  }
+const ClientView = () => {
+  const navigate = useNavigate();
 
-export default function ClientView() {
-  const [generalInfo, setGeneralInfo] = useState({
-    name: '',
-    headquartersAddress: '',
-    industry: '',
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
+    location: Yup.string().required("Headquarters Address is required"),
+    industry: Yup.string().required("Industry is required"),
+    pointName: Yup.string().required("Point of Contact Name is required"),
+    pointEmail: Yup.string()
+      .email("Invalid email address")
+      .required("Point of Contact Email is required"),
   });
 
-  const [pointOfContact, setPointOfContact] = useState({
-    name: '',
-    email: '',
-  });
-  const [show, setShow] = useState(false);
-
-  const [dataHistory, setDataHistory] = useState([]);
-
-
-  useEffect(() => {
-    const savedDataHistory = JSON.parse(localStorage.getItem('clientDataHistory') || '[]');
-    setDataHistory(savedDataHistory);
-  }, []);
-
-  function showHandler(){
-    if (show === false) {
-      setShow(true);
-    } else {      
-      setShow(false);
-    }
+  interface LocalClientDto {
+    name: string;
+    location: string;
+    industry: string;
+    pointName: string;
+    pointEmail: string;
   }
 
-  const saveData = () => {
-    const newData : ClientData = {
-      generalInfo,
-      pointOfContact,
+  const FormComponent = () => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = async () => {
+      setIsSubmitting(true);
+
+      // Simulate an API call (replace this with your actual logic)
+      try {
+        // Simulate a successful API response
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        alert("Client created successfully");
+        formik.resetForm();
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setIsSubmitting(false);
+      }
     };
 
-    // Update the data history with the new data
-    const updatedDataHistory = [...dataHistory, newData];
-
-    // Save the updated data history to local storage
-    localStorage.setItem('clientDataHistory', JSON.stringify(updatedDataHistory));
-
-    // Clear the input fields
-    setGeneralInfo({
-      name: '',
-      headquartersAddress: '',
-      industry: '',
+    const formik = useFormik<LocalClientDto>({
+      initialValues: {
+        name: "",
+        location: "",
+        industry: "",
+        pointName: "",
+        pointEmail: "",
+      },
+      onSubmit: handleSubmit,
+      validationSchema: validationSchema,
     });
-    setPointOfContact({
-      name: '',
-      email: '',
-    });
+
+    return (
+      <>
+        <Center>
+          <form onSubmit={formik.handleSubmit}>
+            <VStack spacing={4} align="flex-start">
+              <FormControl>
+                <FormLabel>Name</FormLabel>
+                <Input
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  name="name"
+                  type="text"
+                />
+              </FormControl>
+              {formik.touched.name && formik.errors.name && (
+                <div className="error-message" style={{color: "red"}}>{formik.errors.name}</div>
+              )}
+              <FormControl>
+                <FormLabel>Headquarters Address</FormLabel>
+                <Input
+                  value={formik.values.location}
+                  onChange={formik.handleChange}
+                  name="location"
+                  placeholder="Headquarters Address"
+                />
+              </FormControl>
+              {formik.touched.location && formik.errors.location && (
+                <div className="error-message" style={{color: "red"}}>{formik.errors.location}</div>
+              )}
+              <FormControl>
+                <FormLabel>Industry</FormLabel>
+                <Input
+                  value={formik.values.industry}
+                  onChange={formik.handleChange}
+                  name="industry"
+                  placeholder="Industry"
+                />
+              </FormControl>
+              {formik.touched.industry && formik.errors.industry && (
+                <div className="error-message" style={{color: "red"}}>{formik.errors.industry}</div>
+              )}
+              <FormControl>
+                <FormLabel>Name</FormLabel>
+                <Input
+                  value={formik.values.pointName}
+                  onChange={formik.handleChange}
+                  name="pointName"
+                  placeholder="Name"
+                />
+              </FormControl>
+              {formik.touched.pointName && formik.errors.pointName && (
+                <div className="error-message" style={{color: "red"}}>{formik.errors.pointName}</div>
+              )}
+              <FormControl>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  value={formik.values.pointEmail}
+                  onChange={formik.handleChange}
+                  name="pointEmail"
+                  type="email"
+                  placeholder="Email"
+                />
+              </FormControl>
+              {formik.touched.pointEmail && formik.errors.pointEmail && (
+                <div className="error-message" style={{color: "red"}}>{formik.errors.pointEmail}</div>
+              )}
+              <Flex>
+                <Box p={10}>
+                  <Button colorScheme="gray" onClick={() => navigate("/")}>
+                    Cancel
+                  </Button>
+                </Box>
+                <Spacer />
+                <Box p={10}>
+                  <Button type="submit" colorScheme="blue" disabled={isSubmitting}>
+                    Save
+                  </Button>
+                </Box>
+              </Flex>
+            </VStack>
+          </form>
+        </Center>
+      </>
+    );
   };
 
-  function DisplayDataHistory() {
-    return dataHistory.map((data: ClientData, index: number) => {
-      return (
-        <div key={index}>
-            <br />
-            <h1>General Information: {index}</h1>
-            <h2>Name: {data.generalInfo.name}</h2>
-            <h2>Headquarters Address: {data.generalInfo.headquartersAddress}</h2>
-            <h2>Industry: {data.generalInfo.industry}</h2>
-            <h1>Point of Contact: {index}</h1>
-            <h2>Name: {data.pointOfContact.name}</h2>
-            <h2>Email: {data.pointOfContact.email}</h2>
-        </div>
-      );
-    });
-  }
-
   return (
-    <div className='client-view'>
-      <h1>Client View</h1>
-      <Link to="/" className='links'>Back to Home</Link>
-      <div className="General Information">
-        <h1>General Information</h1>
-        <br />
-        <h2>Name</h2>
-        <input
-          type="text"
-          value={generalInfo.name}
-          onChange={(e) => setGeneralInfo({ ...generalInfo, name: e.target.value })}
-        />
-        <h2>Headquarters Address</h2>
-        <input
-          type="text"
-          value={generalInfo.headquartersAddress}
-          onChange={(e) =>
-            setGeneralInfo({ ...generalInfo, headquartersAddress: e.target.value })
-          }
-        />
-        <h2>Industry</h2>
-        <input
-          type="text"
-          value={generalInfo.industry}
-          onChange={(e) => setGeneralInfo({ ...generalInfo, industry: e.target.value })}
-        />
-      </div>
-      <br />
-      <div className="Point of contact">
-        <h1>Point of Contact</h1>
-        <br />
-        <h2>Name</h2>
-        <input
-          type="text"
-          value={pointOfContact.name}
-          onChange={(e) => setPointOfContact({ ...pointOfContact, name: e.target.value })}
-        />
-        <h2>Email</h2>
-        <input
-          type="text"
-          value={pointOfContact.email}
-          onChange={(e) => setPointOfContact({ ...pointOfContact, email: e.target.value })}
-        />
-      </div>
-      <button className="glow-on-hover" onClick={saveData} type="button">
-        Save
-      </button>
-      <br />
-      <div>
-        <br />
-        <button className='glow-on-hover' onClick={showHandler} type='button'>Local Storage</button>
-        {show ? (<DisplayDataHistory />) : null}
-      </div>
-    </div>
+    <>
+      {/*Page Header*/}
+      <Center>{<FormComponent />}</Center>
+    </>
   );
-}
+};
+
+export default ClientView;
