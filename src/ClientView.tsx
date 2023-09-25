@@ -9,11 +9,12 @@ import {
   Input,
   Spacer,
   VStack,
+  Text,
+  Link,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { color } from "framer-motion";
 
 const ClientView = () => {
   const navigate = useNavigate();
@@ -69,9 +70,10 @@ const ClientView = () => {
 
     return (
       <>
-        <Center>
-          <form onSubmit={formik.handleSubmit}>
-            <VStack spacing={4} align="flex-start">
+        <Center w={"100%"} marginStart={60} marginEnd={60}>
+          <form onSubmit={formik.handleSubmit} style={{width: "100%"}}>
+            <VStack spacing={4} align="flex-start" padding={10} borderRadius={10} bg={"white"} marginTop={10}>
+              <Text fontWeight="bold" fontSize="lg" id="general-info">General Information</Text>
               <FormControl>
                 <FormLabel>Name</FormLabel>
                 <Input
@@ -79,6 +81,7 @@ const ClientView = () => {
                   onChange={formik.handleChange}
                   name="name"
                   type="text"
+                  maxW={"40%"}
                 />
               </FormControl>
               {formik.touched.name && formik.errors.name && (
@@ -91,6 +94,7 @@ const ClientView = () => {
                   onChange={formik.handleChange}
                   name="location"
                   placeholder="Headquarters Address"
+                  maxW={"40%"}
                 />
               </FormControl>
               {formik.touched.location && formik.errors.location && (
@@ -103,11 +107,15 @@ const ClientView = () => {
                   onChange={formik.handleChange}
                   name="industry"
                   placeholder="Industry"
+                  maxW={"40%"}
                 />
               </FormControl>
               {formik.touched.industry && formik.errors.industry && (
                 <div className="error-message" style={{color: "red"}}>{formik.errors.industry}</div>
               )}
+            </VStack>
+            <VStack spacing={4} align="flex-start" padding={10} borderRadius={10} bg={"white"} marginTop={10}>
+              <Text fontWeight="bold" fontSize="lg" id="point-of-contact">Point of Contact</Text>
               <FormControl>
                 <FormLabel>Name</FormLabel>
                 <Input
@@ -115,6 +123,7 @@ const ClientView = () => {
                   onChange={formik.handleChange}
                   name="pointName"
                   placeholder="Name"
+                  maxW={"40%"}
                 />
               </FormControl>
               {formik.touched.pointName && formik.errors.pointName && (
@@ -128,35 +137,52 @@ const ClientView = () => {
                   name="pointEmail"
                   type="email"
                   placeholder="Email"
+                  maxW={"40%"}
                 />
               </FormControl>
               {formik.touched.pointEmail && formik.errors.pointEmail && (
                 <div className="error-message" style={{color: "red"}}>{formik.errors.pointEmail}</div>
               )}
-              <Flex>
-                <Box p={10}>
-                  <Button colorScheme="gray" onClick={() => navigate("/")}>
-                    Cancel
-                  </Button>
-                </Box>
-                <Spacer />
-                <Box p={10}>
-                  <Button type="submit" colorScheme="blue" disabled={isSubmitting}>
-                    Save
-                  </Button>
-                </Box>
-              </Flex>
             </VStack>
+            <Flex position="sticky" bottom={0} bg="white" zIndex="sticky" borderTop={"1px solid gray"}>
+              <Box p={10}>
+                <Button colorScheme="gray" onClick={() => navigate("/")}>
+                  Cancel
+                </Button>
+              </Box>
+              <Spacer />
+              <Box p={10}>
+                <Button type="submit" colorScheme="blue" disabled={isSubmitting}>
+                  Save
+                </Button>
+              </Box>
+            </Flex>
           </form>
         </Center>
       </>
     );
   };
 
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    }
+  };
+
   return (
     <>
       {/*Page Header*/}
-      <Center>{<FormComponent />}</Center>
+      <Flex justify={"center"} p={50}>Header</Flex>
+      <Flex justify="start" paddingLeft={60} paddingTop={2} position="sticky" top="0" bg="white" zIndex="sticky">
+        <Link onClick={() => scrollToSection("general-info")} _hover={{textDecor: "none", fontWeight: "bold"}} mr={4}>General Info</Link>
+        <Link onClick={() => scrollToSection("point-of-contact")} _hover={{textDecor: "none", fontWeight: "bold"}} mr={4}>Point of Contact</Link>
+      </Flex>
+      <Center bg={"#EDF2F7"}>{<FormComponent />}</Center>
     </>
   );
 };
